@@ -1,0 +1,937 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+ <edmx:DataServices m:DataServiceVersion="2.0">
+  <Schema Namespace="ZSOZ_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+   <EntityType Name="Subscription" sap:semantics="subscriptions" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="ID"/>
+    </Key>
+    <Property Name="ID" Type="Edm.String" Nullable="false" MaxLength="32" sap:label="Sub. ID" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+    <Property Name="user" Type="Edm.String" MaxLength="12" m:FC_TargetPath="SyndicationAuthorName" m:FC_KeepInContent="false" sap:label="User Name" sap:creatable="false" sap:filterable="false"/>
+    <Property Name="updated" Type="Edm.DateTime" Precision="0" m:FC_TargetPath="SyndicationUpdated" m:FC_KeepInContent="false" sap:label="Time Stamp" sap:creatable="false" sap:filterable="false"/>
+    <Property Name="title" Type="Edm.String" MaxLength="255" m:FC_TargetPath="SyndicationTitle" m:FC_KeepInContent="false" sap:label="Title" sap:filterable="false"/>
+    <Property Name="deliveryAddress" Type="Edm.String" sap:label="Delivery Address" sap:filterable="false"/>
+    <Property Name="persistNotifications" Type="Edm.Boolean" sap:label="Persist Notification" sap:filterable="false"/>
+    <Property Name="collection" Type="Edm.String" MaxLength="40" sap:label="Collection" sap:filterable="false"/>
+    <Property Name="filter" Type="Edm.String" sap:label="Filter" sap:filterable="false"/>
+    <Property Name="select" Type="Edm.String" MaxLength="255" sap:label="Select" sap:filterable="false"/>
+    <Property Name="changeType" Type="Edm.String" MaxLength="30" sap:label="Change Type"/>
+   </EntityType>
+   <EntityType Name="Notification" sap:semantics="notifications" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="ID"/>
+    </Key>
+    <Property Name="ID" Type="Edm.String" Nullable="false" MaxLength="32" sap:label="Notification ID"/>
+    <Property Name="collection" Type="Edm.String" MaxLength="40" sap:label="Collection"/>
+    <Property Name="title" Type="Edm.String" m:FC_TargetPath="SyndicationTitle" m:FC_KeepInContent="false" sap:label="Notif. Text"/>
+    <Property Name="updated" Type="Edm.DateTime" Precision="0" m:FC_TargetPath="SyndicationUpdated" m:FC_KeepInContent="false" sap:label="Time Stamp"/>
+    <Property Name="changeType" Type="Edm.String" MaxLength="30" sap:label="Change Type"/>
+    <Property Name="entriesOfInterest" Type="Edm.Int32" sap:label="No. of Entries"/>
+    <Property Name="recipient" Type="Edm.String" MaxLength="112" sap:label="Recipient" sap:creatable="false" sap:updatable="false"/>
+   </EntityType>
+   <EntityType Name="ResponsetimeCalculation" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="MalfunctionId"/>
+     <PropertyRef Name="EquipmentTypeId"/>
+     <PropertyRef Name="SupportgroupId"/>
+     <PropertyRef Name="ObjectTypeId"/>
+     <PropertyRef Name="PriorityId"/>
+    </Key>
+    <Property Name="MalfunctionId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="SupportgroupId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Responsetime" Type="Edm.DateTimeOffset" Nullable="false" Precision="0" sap:unicode="false" sap:label="Time Stamp" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PriorityId" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+   </EntityType>
+   <EntityType Name="LeadtimeCalculation" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="MalfunctionId"/>
+     <PropertyRef Name="EquipmentTypeId"/>
+     <PropertyRef Name="DepartmentId"/>
+     <PropertyRef Name="ObjectId"/>
+     <PropertyRef Name="ObjectTypeId"/>
+     <PropertyRef Name="UnitTypeId"/>
+     <PropertyRef Name="PartTypeId"/>
+     <PropertyRef Name="PriorityId"/>
+    </Key>
+    <Property Name="MalfunctionId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="DepartmentId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Leadtime" Type="Edm.DateTimeOffset" Nullable="false" Precision="0" sap:unicode="false" sap:label="Time Stamp" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PriorityId" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+   </EntityType>
+   <EntityType Name="Times" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="MalfunctionId"/>
+     <PropertyRef Name="EquipmentTypeId"/>
+     <PropertyRef Name="DepartmentId"/>
+     <PropertyRef Name="ObjectTypeId"/>
+     <PropertyRef Name="UnitTypeId"/>
+     <PropertyRef Name="PartTypeId"/>
+    </Key>
+    <Property Name="MalfunctionId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="DepartmentId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ResponseTimeLowHours" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ResponseTimeMiddleHours" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ResponseTimeHighHours" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ResponseTimeVeryHighHours" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LeadTimeLowHours" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LeadTimeMiddleHours" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LeadTimeHighHours" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LeadTimeVeryHighHours" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PriorityId" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MalfunctionText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeText" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="DepartmentText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+   </EntityType>
+   <EntityType Name="RootCause" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="ObjectTypeId"/>
+     <PropertyRef Name="EquipmentTypeId"/>
+     <PropertyRef Name="UnitTypeId"/>
+     <PropertyRef Name="PartTypeId"/>
+     <PropertyRef Name="ProblemId"/>
+     <PropertyRef Name="SolutionId"/>
+    </Key>
+    <Property Name="ObjectTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ProblemId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="SolutionId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeText" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ProblemText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="SolutionText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+   </EntityType>
+   <EntityType Name="UnitType" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="UnitTypeId"/>
+    </Key>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value1" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+   </EntityType>
+   <EntityType Name="PartType" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="PartTypeId"/>
+    </Key>
+    <Property Name="PartTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value1" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+   </EntityType>
+   <EntityType Name="HistoryHeader" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="refGuid"/>
+     <PropertyRef Name="historyGuid"/>
+    </Key>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UserName" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ChangeDate" Type="Edm.DateTimeOffset" Precision="0" sap:unicode="false" sap:label="Time Stamp" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Action" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MiddleName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LastName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="FullName" Type="Edm.String" Nullable="false" MaxLength="80" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="FirstName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="historyGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="HistoryHeaderToHistoryDetailSet" Relationship="ZSOZ_SRV.HistoryHeaderToHistoryDetail" FromRole="FromRole_HistoryHeaderToHistoryDetail" ToRole="ToRole_HistoryHeaderToHistoryDetail"/>
+   </EntityType>
+   <EntityType Name="HistoryDetail" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="historyGuid"/>
+    </Key>
+    <Property Name="FieldInRussian" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Field" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ValueText" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="historyGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+   </EntityType>
+   <EntityType Name="Incident" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="Guid"/>
+    </Key>
+    <Property Name="Cdate" Type="Edm.DateTimeOffset" Precision="0" sap:unicode="false" sap:label="Time Stamp" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Completiontime" Type="Edm.DateTimeOffset" Precision="0" sap:unicode="false" sap:label="Time Stamp" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="CuserFullName" Type="Edm.String" Nullable="false" MaxLength="80" sap:unicode="false" sap:label="Full Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="CuserId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Character Field Length = 10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="CuserName" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="User Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="DepartmentId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Character Field Length = 10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="DepartmentText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Name 2" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Edate" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="0" sap:unicode="false" sap:label="Changed On" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="30 Characters" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Char" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:label="Field length 18" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Char" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EuserId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Created By" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EventTime" Type="Edm.DateTimeOffset" Precision="0" sap:unicode="false" sap:label="Time Stamp" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ExecutorFullName" Type="Edm.String" Nullable="false" MaxLength="80" sap:unicode="false" sap:label="Full Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ExecutorId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Character Field Length = 10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Guid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="Object GUID" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+    <Property Name="Id" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Transaction No." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Leadtime" Type="Edm.DateTimeOffset" Precision="0" sap:unicode="false" sap:label="Time Stamp" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LeadtimeFact" Type="Edm.DateTimeOffset" Precision="0" sap:unicode="false" sap:label="Time Stamp" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MalfunctionId" Type="Edm.Guid" sap:unicode="false" sap:label="GUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MalfunctionText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:label="Text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Note" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="30 Characters" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Char" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:label="Field length 18" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Char" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartId" Type="Edm.String" MaxLength="60" sap:unicode="false" sap:label="SOZ: Part ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartText" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="30 Characters" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeId" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="30 Characters" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PriorityId" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Priority" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PriorityName" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ProblemId" Type="Edm.Guid" sap:unicode="false" sap:label="GUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="SolutionText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:label="Text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ProblemText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:label="Text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="SolutionId" Type="Edm.Guid" sap:unicode="false" sap:label="GUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Status" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="StatusText" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Status" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="SupportgroupId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="SupportgroupText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Name 2" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Troubleshootingtime" Type="Edm.Int32" sap:unicode="false" sap:label="Integer" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitId" Type="Edm.String" MaxLength="18" sap:unicode="false" sap:label="Field length 18" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Char" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" MaxLength="18" sap:unicode="false" sap:label="Field length 18" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Char" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Watchers" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="String" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="HistoryHeaderSet" Relationship="ZSOZ_SRV.IncidentToHistoryHeader" FromRole="FromRole_IncidentToHistoryHeader" ToRole="ToRole_IncidentToHistoryHeader"/>
+    <NavigationProperty Name="HistoryDetailSet" Relationship="ZSOZ_SRV.IncidentToHistoryDetail" FromRole="FromRole_IncidentToHistoryDetail" ToRole="ToRole_IncidentToHistoryDetail"/>
+    <NavigationProperty Name="AttachmentSet" Relationship="ZSOZ_SRV.IncidentToAttachment" FromRole="FromRole_IncidentToAttachment" ToRole="ToRole_IncidentToAttachment"/>
+    <NavigationProperty Name="EquipmentSet" Relationship="ZSOZ_SRV.IncidentToEquipment" FromRole="FromRole_IncidentToEquipment" ToRole="ToRole_IncidentToEquipment"/>
+    <NavigationProperty Name="MalfunctionSet" Relationship="ZSOZ_SRV.IncidentToMalfunction" FromRole="FromRole_IncidentToMalfunction" ToRole="ToRole_IncidentToMalfunction"/>
+    <NavigationProperty Name="ObjectSet" Relationship="ZSOZ_SRV.IncidentToObject" FromRole="FromRole_IncidentToObject" ToRole="ToRole_IncidentToObject"/>
+    <NavigationProperty Name="SupportGroupSet" Relationship="ZSOZ_SRV.IncidentToSupportGroup" FromRole="FromRole_IncidentToSupportGroup" ToRole="ToRole_IncidentToSupportGroup"/>
+    <NavigationProperty Name="TextSet" Relationship="ZSOZ_SRV.IncidentToText" FromRole="FromRole_IncidentToText" ToRole="ToRole_IncidentToText"/>
+    <NavigationProperty Name="CuserSet" Relationship="ZSOZ_SRV.IncidentToCuser" FromRole="FromRole_IncidentToCuser" ToRole="ToRole_IncidentToCuser"/>
+    <NavigationProperty Name="ExecutorSet" Relationship="ZSOZ_SRV.IncidentToExecutor" FromRole="FromRole_IncidentToExecutor" ToRole="ToRole_IncidentToExecutor"/>
+    <NavigationProperty Name="EquipmentTypeSet" Relationship="ZSOZ_SRV.IncidentToEquipmentType" FromRole="FromRole_IncidentToEquipmentType" ToRole="ToRole_IncidentToEquipmentType"/>
+    <NavigationProperty Name="UnitSet" Relationship="ZSOZ_SRV.IncidentToUnit" FromRole="FromRole_IncidentToUnit" ToRole="ToRole_IncidentToUnit"/>
+    <NavigationProperty Name="PartSet" Relationship="ZSOZ_SRV.IncidentToPart" FromRole="FromRole_IncidentToPart" ToRole="ToRole_IncidentToPart"/>
+    <NavigationProperty Name="WatcherSet" Relationship="ZSOZ_SRV.IncidentToWatcher" FromRole="FromRole_IncidentToWatcher" ToRole="ToRole_IncidentToWatcher"/>
+    <NavigationProperty Name="DepartmentSet" Relationship="ZSOZ_SRV.IncidentToDepartment" FromRole="FromRole_IncidentToDepartment" ToRole="ToRole_IncidentToDepartment"/>
+    <NavigationProperty Name="ObjectTypeSet" Relationship="ZSOZ_SRV.IncidentToObjectType" FromRole="FromRole_IncidentToObjectType" ToRole="ToRole_IncidentToObjectType"/>
+    <NavigationProperty Name="ProblemSet" Relationship="ZSOZ_SRV.IncidentToProblem" FromRole="FromRole_IncidentToProblem" ToRole="ToRole_IncidentToProblem"/>
+    <NavigationProperty Name="SolutionSet" Relationship="ZSOZ_SRV.IncidentToSolution" FromRole="FromRole_IncidentToSolution" ToRole="ToRole_IncidentToSolution"/>
+   </EntityType>
+   <EntityType Name="Equipment" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="EquipmentId"/>
+    </Key>
+    <Property Name="EquipmentId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value1" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value2" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value3" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToEquipment" FromRole="ToRole_IncidentToEquipment" ToRole="FromRole_IncidentToEquipment"/>
+   </EntityType>
+   <EntityType Name="Malfunction" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="MalfunctionId"/>
+    </Key>
+    <Property Name="MalfunctionId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="TimesWithGroupingGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value2" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value3" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value1" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartId" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="SupportgroupId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToMalfunction" FromRole="ToRole_IncidentToMalfunction" ToRole="FromRole_IncidentToMalfunction"/>
+   </EntityType>
+   <EntityType Name="Object" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="ObjectId"/>
+    </Key>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value1" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value2" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value3" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToObject" FromRole="ToRole_IncidentToObject" ToRole="FromRole_IncidentToObject"/>
+   </EntityType>
+   <EntityType Name="SupportGroup" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="SupportgroupId"/>
+    </Key>
+    <Property Name="SupportgroupId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Business Partner ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Business Partner Name" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MalfunctionId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToSupportGroup" FromRole="ToRole_IncidentToSupportGroup" ToRole="FromRole_IncidentToSupportGroup"/>
+   </EntityType>
+   <EntityType Name="Attachment" m:HasStream="true" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="refGuid"/>
+     <PropertyRef Name="loioId"/>
+     <PropertyRef Name="phioId"/>
+    </Key>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="Guid" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="loioId" Type="Edm.String" Nullable="false" MaxLength="32" sap:unicode="false" sap:label="Object ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="phioId" Type="Edm.String" Nullable="false" MaxLength="32" sap:unicode="false" sap:label="Object ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="documentId" Type="Edm.String" Nullable="false" MaxLength="132" sap:unicode="false" sap:label="DOCUMENT_ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="fileName" Type="Edm.String" Nullable="false" MaxLength="255" sap:unicode="false" sap:label="Component name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="fileSize" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="Size/dim." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="mimeType" Type="Edm.String" Nullable="false" MaxLength="128" sap:unicode="false" sap:label="MIME type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="language" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Language" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="uploadDateFormatted" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Upload Date (formatted)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="uploadDate" Type="Edm.DateTime" Nullable="false" Precision="0" sap:unicode="false" sap:label="Time Stamp" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="userName" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="User Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="contributor" Type="Edm.String" Nullable="false" MaxLength="255" sap:unicode="false" sap:label="User Name (full)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="document" Type="Edm.Binary" Nullable="false" sap:unicode="false" sap:label="DOCUMENT" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="thumbnailUrl" Type="Edm.String" Nullable="false" MaxLength="4096" sap:unicode="false" sap:label="Thumbnail Url" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="enableEdit" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Enable Edit Switch" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="enableDelete" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Enable Delete Switch" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="visibleDelete" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Visible Delete Switch" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="visibleEdit" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Visible Edit Switch" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="url" Type="Edm.String" Nullable="false" MaxLength="4096" sap:unicode="false" sap:label="URL" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToAttachment" FromRole="ToRole_IncidentToAttachment" ToRole="FromRole_IncidentToAttachment"/>
+   </EntityType>
+   <EntityType Name="Text" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="Tdname"/>
+     <PropertyRef Name="Tdobject"/>
+     <PropertyRef Name="Tdid"/>
+    </Key>
+    <Property Name="Tdname" Type="Edm.String" Nullable="false" MaxLength="70" sap:unicode="false" sap:label="Text Name" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Tdobject" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Text object" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Tdid" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Text ID" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="RefGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="Object GUID" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Tdspras" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Language" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="TextString" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Text Lines" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="TdidTxt" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="DateTimeText" Type="Edm.DateTime" Nullable="false" Precision="0" sap:unicode="false" sap:label="Date Time Text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UserText" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Company" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Company" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Contactmobile" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Telephone Mobile" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Department" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Department" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Contactphone" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Telephone no." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Email" Type="Edm.String" Nullable="false" MaxLength="241" sap:unicode="false" sap:label="E-Mail Address" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Emailsubject" Type="Edm.String" Nullable="false" MaxLength="255" sap:unicode="false" sap:label="Email subject" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="CompanyAdress" Type="Edm.String" Nullable="false" MaxLength="255" sap:unicode="false" sap:label="Company Adress" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ActionTextId" Type="Edm.String" Nullable="false" MaxLength="15" sap:unicode="false" sap:label="Action Text ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToText" FromRole="ToRole_IncidentToText" ToRole="FromRole_IncidentToText"/>
+   </EntityType>
+   <EntityType Name="Cuser" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="CuserId"/>
+    </Key>
+    <Property Name="CuserId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="CuserName" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MiddleName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LastName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="FirstName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="FullName" Type="Edm.String" Nullable="false" MaxLength="80" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToCuser" FromRole="ToRole_IncidentToCuser" ToRole="FromRole_IncidentToCuser"/>
+   </EntityType>
+   <EntityType Name="Priority" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="PriorityId"/>
+    </Key>
+    <Property Name="MalfunctionId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="DepartmentId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PriorityId" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Priority" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PriorityName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+   </EntityType>
+   <EntityType Name="EquipmentType" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="EquipmentTypeId"/>
+    </Key>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value1" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value2" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value3" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToEquipmentType" FromRole="ToRole_IncidentToEquipmentType" ToRole="FromRole_IncidentToEquipmentType"/>
+   </EntityType>
+   <EntityType Name="Unit" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="UnitId"/>
+    </Key>
+    <Property Name="UnitId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value1" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value2" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value3" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToUnit" FromRole="ToRole_IncidentToUnit" ToRole="FromRole_IncidentToUnit"/>
+   </EntityType>
+   <EntityType Name="Part" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="PartId"/>
+    </Key>
+    <Property Name="PartId" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value1" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value2" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value3" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToPart" FromRole="ToRole_IncidentToPart" ToRole="FromRole_IncidentToPart"/>
+   </EntityType>
+   <EntityType Name="Executor" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="ExecutorId"/>
+    </Key>
+    <Property Name="ExecutorId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MiddleName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LastName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="FirstName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="FullName" Type="Edm.String" Nullable="false" MaxLength="80" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToExecutor" FromRole="ToRole_IncidentToExecutor" ToRole="FromRole_IncidentToExecutor"/>
+   </EntityType>
+   <EntityType Name="Status" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="StatusId"/>
+    </Key>
+    <Property Name="StatusText" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="StatusId" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+   </EntityType>
+   <EntityType Name="Watcher" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="WatcherId"/>
+    </Key>
+    <Property Name="WatcherId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MiddleName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LastName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="FirstName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="FullName" Type="Edm.String" Nullable="false" MaxLength="80" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToWatcher" FromRole="ToRole_IncidentToWatcher" ToRole="FromRole_IncidentToWatcher"/>
+   </EntityType>
+   <EntityType Name="Employee" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="EmployeeId"/>
+    </Key>
+    <Property Name="EmployeeId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MiddleName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LastName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="SupportgroupId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="FirstName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="FullName" Type="Edm.String" Nullable="false" MaxLength="80" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+   </EntityType>
+   <EntityType Name="Department" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="DepartmentId"/>
+    </Key>
+    <Property Name="DepartmentId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+    <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToDepartment" FromRole="ToRole_IncidentToDepartment" ToRole="FromRole_IncidentToDepartment"/>
+   </EntityType>
+   <EntityType Name="TimesWithGrouping" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="Guid"/>
+    </Key>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="DepartmentId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MalfunctionsGroup" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LeadTimeLowHours" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LeadTimeMiddleHours" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LeadTimeHighHours" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LeadTimeVeryHighHours" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PriorityId" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Guid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeText" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="DepartmentText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="MalfunctionSet" Relationship="ZSOZ_SRV.TimesWithGroupingToMalfunction" FromRole="FromRole_TimesWithGroupingToMalfunction" ToRole="ToRole_TimesWithGroupingToMalfunction"/>
+   </EntityType>
+   <EntityType Name="ObjectType" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="ObjectTypeId"/>
+    </Key>
+    <Property Name="ObjectTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value1" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value2" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value3" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToObjectType" FromRole="ToRole_IncidentToObjectType" ToRole="FromRole_IncidentToObjectType"/>
+   </EntityType>
+   <EntityType Name="Routes" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="MalfunctionId"/>
+     <PropertyRef Name="EquipmentTypeId"/>
+     <PropertyRef Name="ObjectId"/>
+     <PropertyRef Name="UnitTypeId"/>
+     <PropertyRef Name="PartTypeId"/>
+    </Key>
+    <Property Name="MalfunctionId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="SupportgroupId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="SupportgroupText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MalfunctionText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeText" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+   </EntityType>
+   <EntityType Name="Solution" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="SolutionId"/>
+    </Key>
+    <Property Name="SolutionId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value2" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value3" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value1" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartId" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MalfunctionId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToSolution" FromRole="ToRole_IncidentToSolution" ToRole="FromRole_IncidentToSolution"/>
+   </EntityType>
+   <EntityType Name="Problem" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="ProblemId"/>
+    </Key>
+    <Property Name="ProblemId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value2" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value3" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="Value1" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartTypeId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitTypeId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="PartId" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UnitId" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EquipmentId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MalfunctionId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <NavigationProperty Name="IncidentSet" Relationship="ZSOZ_SRV.IncidentToProblem" FromRole="ToRole_IncidentToProblem" ToRole="FromRole_IncidentToProblem"/>
+   </EntityType>
+   <EntityType Name="Profile" sap:content-version="1">
+    <Key>
+     <PropertyRef Name="EmployeeId"/>
+    </Key>
+    <Property Name="UserRoles" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="UserName" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="EmployeeId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="MiddleName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="IsSOZProcessor" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Indicator" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="LastName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="FirstName" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="FullName" Type="Edm.String" Nullable="false" MaxLength="80" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="refGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="UUID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="DepartmentId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="DepartmentText" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    <Property Name="ObjectText" Type="Edm.String" Nullable="false" MaxLength="258" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+   </EntityType>
+   <Association Name="TimesWithGroupingToMalfunction" sap:content-version="1">
+    <End Type="ZSOZ_SRV.TimesWithGrouping" Multiplicity="1" Role="FromRole_TimesWithGroupingToMalfunction"/>
+    <End Type="ZSOZ_SRV.Malfunction" Multiplicity="*" Role="ToRole_TimesWithGroupingToMalfunction"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_TimesWithGroupingToMalfunction">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_TimesWithGroupingToMalfunction">
+      <PropertyRef Name="TimesWithGroupingGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="HistoryHeaderToHistoryDetail" sap:content-version="1">
+    <End Type="ZSOZ_SRV.HistoryHeader" Multiplicity="*" Role="FromRole_HistoryHeaderToHistoryDetail"/>
+    <End Type="ZSOZ_SRV.HistoryDetail" Multiplicity="*" Role="ToRole_HistoryHeaderToHistoryDetail"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_HistoryHeaderToHistoryDetail">
+      <PropertyRef Name="refGuid"/>
+      <PropertyRef Name="historyGuid"/>
+     </Principal>
+     <Dependent Role="ToRole_HistoryHeaderToHistoryDetail">
+      <PropertyRef Name="refGuid"/>
+      <PropertyRef Name="historyGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToHistoryDetail" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToHistoryDetail"/>
+    <End Type="ZSOZ_SRV.HistoryDetail" Multiplicity="*" Role="ToRole_IncidentToHistoryDetail"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToHistoryDetail">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToHistoryDetail">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToAttachment" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToAttachment"/>
+    <End Type="ZSOZ_SRV.Attachment" Multiplicity="*" Role="ToRole_IncidentToAttachment"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToAttachment">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToAttachment">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToText" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToText"/>
+    <End Type="ZSOZ_SRV.Text" Multiplicity="*" Role="ToRole_IncidentToText"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToText">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToText">
+      <PropertyRef Name="RefGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToEquipment" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToEquipment"/>
+    <End Type="ZSOZ_SRV.Equipment" Multiplicity="1" Role="ToRole_IncidentToEquipment"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToEquipment">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToEquipment">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToMalfunction" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToMalfunction"/>
+    <End Type="ZSOZ_SRV.Malfunction" Multiplicity="1" Role="ToRole_IncidentToMalfunction"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToMalfunction">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToMalfunction">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToObject" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToObject"/>
+    <End Type="ZSOZ_SRV.Object" Multiplicity="1" Role="ToRole_IncidentToObject"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToObject">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToObject">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToSupportGroup" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToSupportGroup"/>
+    <End Type="ZSOZ_SRV.SupportGroup" Multiplicity="1" Role="ToRole_IncidentToSupportGroup"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToSupportGroup">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToSupportGroup">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToCuser" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToCuser"/>
+    <End Type="ZSOZ_SRV.Cuser" Multiplicity="1" Role="ToRole_IncidentToCuser"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToCuser">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToCuser">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToExecutor" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToExecutor"/>
+    <End Type="ZSOZ_SRV.Executor" Multiplicity="1" Role="ToRole_IncidentToExecutor"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToExecutor">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToExecutor">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToEquipmentType" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToEquipmentType"/>
+    <End Type="ZSOZ_SRV.EquipmentType" Multiplicity="1" Role="ToRole_IncidentToEquipmentType"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToEquipmentType">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToEquipmentType">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToUnit" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToUnit"/>
+    <End Type="ZSOZ_SRV.Unit" Multiplicity="1" Role="ToRole_IncidentToUnit"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToUnit">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToUnit">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToPart" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToPart"/>
+    <End Type="ZSOZ_SRV.Part" Multiplicity="1" Role="ToRole_IncidentToPart"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToPart">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToPart">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToWatcher" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToWatcher"/>
+    <End Type="ZSOZ_SRV.Watcher" Multiplicity="*" Role="ToRole_IncidentToWatcher"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToWatcher">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToWatcher">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToDepartment" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToDepartment"/>
+    <End Type="ZSOZ_SRV.Department" Multiplicity="1" Role="ToRole_IncidentToDepartment"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToDepartment">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToDepartment">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToObjectType" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToObjectType"/>
+    <End Type="ZSOZ_SRV.ObjectType" Multiplicity="1" Role="ToRole_IncidentToObjectType"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToObjectType">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToObjectType">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToSolution" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToSolution"/>
+    <End Type="ZSOZ_SRV.Solution" Multiplicity="1" Role="ToRole_IncidentToSolution"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToSolution">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToSolution">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToProblem" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToProblem"/>
+    <End Type="ZSOZ_SRV.Problem" Multiplicity="1" Role="ToRole_IncidentToProblem"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToProblem">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToProblem">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <Association Name="IncidentToHistoryHeader" sap:content-version="1">
+    <End Type="ZSOZ_SRV.Incident" Multiplicity="1" Role="FromRole_IncidentToHistoryHeader"/>
+    <End Type="ZSOZ_SRV.HistoryHeader" Multiplicity="*" Role="ToRole_IncidentToHistoryHeader"/>
+    <ReferentialConstraint>
+     <Principal Role="FromRole_IncidentToHistoryHeader">
+      <PropertyRef Name="Guid"/>
+     </Principal>
+     <Dependent Role="ToRole_IncidentToHistoryHeader">
+      <PropertyRef Name="refGuid"/>
+     </Dependent>
+    </ReferentialConstraint>
+   </Association>
+   <EntityContainer Name="ZSOZ_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+    <EntitySet Name="SubscriptionCollection" EntityType="ZSOZ_SRV.Subscription" sap:content-version="1"/>
+    <EntitySet Name="NotificationCollection" EntityType="ZSOZ_SRV.Notification" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="ResponsetimeCalculationSet" EntityType="ZSOZ_SRV.ResponsetimeCalculation" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
+    <EntitySet Name="LeadtimeCalculationSet" EntityType="ZSOZ_SRV.LeadtimeCalculation" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="TimesSet" EntityType="ZSOZ_SRV.Times" sap:searchable="true" sap:requires-filter="true" sap:content-version="1"/>
+    <EntitySet Name="RootCauseSet" EntityType="ZSOZ_SRV.RootCause" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
+    <EntitySet Name="UnitTypeSet" EntityType="ZSOZ_SRV.UnitType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="PartTypeSet" EntityType="ZSOZ_SRV.PartType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="HistoryHeaderSet" EntityType="ZSOZ_SRV.HistoryHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
+    <EntitySet Name="HistoryDetailSet" EntityType="ZSOZ_SRV.HistoryDetail" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+    <EntitySet Name="IncidentSet" EntityType="ZSOZ_SRV.Incident" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
+    <EntitySet Name="EquipmentSet" EntityType="ZSOZ_SRV.Equipment" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="MalfunctionSet" EntityType="ZSOZ_SRV.Malfunction" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
+    <EntitySet Name="ObjectSet" EntityType="ZSOZ_SRV.Object" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="SupportGroupSet" EntityType="ZSOZ_SRV.SupportGroup" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:requires-filter="true" sap:content-version="1"/>
+    <EntitySet Name="AttachmentSet" EntityType="ZSOZ_SRV.Attachment" sap:searchable="true" sap:content-version="1"/>
+    <EntitySet Name="TextSet" EntityType="ZSOZ_SRV.Text" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:requires-filter="true" sap:content-version="1"/>
+    <EntitySet Name="CuserSet" EntityType="ZSOZ_SRV.Cuser" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="PrioritySet" EntityType="ZSOZ_SRV.Priority" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="EquipmentTypeSet" EntityType="ZSOZ_SRV.EquipmentType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="UnitSet" EntityType="ZSOZ_SRV.Unit" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="PartSet" EntityType="ZSOZ_SRV.Part" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="ExecutorSet" EntityType="ZSOZ_SRV.Executor" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="StatusSet" EntityType="ZSOZ_SRV.Status" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="WatcherSet" EntityType="ZSOZ_SRV.Watcher" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="EmployeeSet" EntityType="ZSOZ_SRV.Employee" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="DepartmentSet" EntityType="ZSOZ_SRV.Department" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="TimesWithGroupingSet" EntityType="ZSOZ_SRV.TimesWithGrouping" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="ObjectTypeSet" EntityType="ZSOZ_SRV.ObjectType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <EntitySet Name="RoutesSet" EntityType="ZSOZ_SRV.Routes" sap:searchable="true" sap:requires-filter="true" sap:content-version="1"/>
+    <EntitySet Name="SolutionSet" EntityType="ZSOZ_SRV.Solution" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
+    <EntitySet Name="ProblemSet" EntityType="ZSOZ_SRV.Problem" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
+    <EntitySet Name="ProfileSet" EntityType="ZSOZ_SRV.Profile" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    <AssociationSet Name="IncidentToWatcherSet" Association="ZSOZ_SRV.IncidentToWatcher" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToWatcher"/>
+     <End EntitySet="WatcherSet" Role="ToRole_IncidentToWatcher"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToMalfunction" Association="ZSOZ_SRV.IncidentToMalfunction" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToMalfunction"/>
+     <End EntitySet="MalfunctionSet" Role="ToRole_IncidentToMalfunction"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToPart_AssocSet" Association="ZSOZ_SRV.IncidentToPart" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToPart"/>
+     <End EntitySet="PartSet" Role="ToRole_IncidentToPart"/>
+    </AssociationSet>
+    <AssociationSet Name="HistoryHeaderToHistoryDetailSet" Association="ZSOZ_SRV.HistoryHeaderToHistoryDetail" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="HistoryHeaderSet" Role="FromRole_HistoryHeaderToHistoryDetail"/>
+     <End EntitySet="HistoryDetailSet" Role="ToRole_HistoryHeaderToHistoryDetail"/>
+    </AssociationSet>
+    <AssociationSet Name="TimesWithGroupingToMalfunction" Association="ZSOZ_SRV.TimesWithGroupingToMalfunction" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="TimesWithGroupingSet" Role="FromRole_TimesWithGroupingToMalfunction"/>
+     <End EntitySet="MalfunctionSet" Role="ToRole_TimesWithGroupingToMalfunction"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToUnitSet" Association="ZSOZ_SRV.IncidentToUnit" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToUnit"/>
+     <End EntitySet="UnitSet" Role="ToRole_IncidentToUnit"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToDepartmentSet" Association="ZSOZ_SRV.IncidentToDepartment" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToDepartment"/>
+     <End EntitySet="DepartmentSet" Role="ToRole_IncidentToDepartment"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToEquipment" Association="ZSOZ_SRV.IncidentToEquipment" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToEquipment"/>
+     <End EntitySet="EquipmentSet" Role="ToRole_IncidentToEquipment"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToSupportGroup" Association="ZSOZ_SRV.IncidentToSupportGroup" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToSupportGroup"/>
+     <End EntitySet="SupportGroupSet" Role="ToRole_IncidentToSupportGroup"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToHistoryHeader" Association="ZSOZ_SRV.IncidentToHistoryHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToHistoryHeader"/>
+     <End EntitySet="HistoryHeaderSet" Role="ToRole_IncidentToHistoryHeader"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToSolutionSet" Association="ZSOZ_SRV.IncidentToSolution" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToSolution"/>
+     <End EntitySet="SolutionSet" Role="ToRole_IncidentToSolution"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToHistoryDetail" Association="ZSOZ_SRV.IncidentToHistoryDetail" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToHistoryDetail"/>
+     <End EntitySet="HistoryDetailSet" Role="ToRole_IncidentToHistoryDetail"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToObject" Association="ZSOZ_SRV.IncidentToObject" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToObject"/>
+     <End EntitySet="ObjectSet" Role="ToRole_IncidentToObject"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToProblemSet" Association="ZSOZ_SRV.IncidentToProblem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToProblem"/>
+     <End EntitySet="ProblemSet" Role="ToRole_IncidentToProblem"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToExecutorSet" Association="ZSOZ_SRV.IncidentToExecutor" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToExecutor"/>
+     <End EntitySet="ExecutorSet" Role="ToRole_IncidentToExecutor"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToAttachmentSet" Association="ZSOZ_SRV.IncidentToAttachment" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToAttachment"/>
+     <End EntitySet="AttachmentSet" Role="ToRole_IncidentToAttachment"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToTextSet" Association="ZSOZ_SRV.IncidentToText" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToText"/>
+     <End EntitySet="TextSet" Role="ToRole_IncidentToText"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToEquipmentType_AssocSet" Association="ZSOZ_SRV.IncidentToEquipmentType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToEquipmentType"/>
+     <End EntitySet="EquipmentTypeSet" Role="ToRole_IncidentToEquipmentType"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToCuser" Association="ZSOZ_SRV.IncidentToCuser" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToCuser"/>
+     <End EntitySet="CuserSet" Role="ToRole_IncidentToCuser"/>
+    </AssociationSet>
+    <AssociationSet Name="IncidentToObjectType_AssocSet" Association="ZSOZ_SRV.IncidentToObjectType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+     <End EntitySet="IncidentSet" Role="FromRole_IncidentToObjectType"/>
+     <End EntitySet="ObjectTypeSet" Role="ToRole_IncidentToObjectType"/>
+    </AssociationSet>
+   </EntityContainer>
+   <atom:link rel="self" href="https://SAPFSD.SGC.OIL.GAS:8131/sap/opu/odata/sap/ZSOZ_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+   <atom:link rel="latest-version" href="https://SAPFSD.SGC.OIL.GAS:8131/sap/opu/odata/sap/ZSOZ_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+  </Schema>
+ </edmx:DataServices>
+</edmx:Edmx>
